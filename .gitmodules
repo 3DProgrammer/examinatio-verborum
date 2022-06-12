@@ -1,0 +1,3 @@
+[submodule "bibliotheca"]
+	path = bibliotheca
+	url = git@github.com:3DProgrammer/bibliotheca.git
