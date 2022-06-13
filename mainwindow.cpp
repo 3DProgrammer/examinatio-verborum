@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->hint_label->setText("");
     connect(ui->answer_button, &QPushButton::pressed, [=](){
         std::cout<<"Button pressed"<<std::endl;
     });

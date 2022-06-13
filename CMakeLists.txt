@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(examinatio-verborum VERSION 0.1 LANGUAGES CXX)
 
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -10,7 +11,6 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
@@ -43,9 +43,9 @@ else()
         )
     endif()
 endif()
-
-target_link_libraries(examinatio-verborum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/bibliotheca)
+target_link_libraries(examinatio-verborum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets bibliotheca)
+target_include_directories(examinatio-verborum PRIVATE ${BIBLIOTHECA_INCLUDE_DIRS})
 set_target_properties(examinatio-verborum PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -59,3 +59,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
 endif()
 message(STATUS "QT Major version is ${QT_VERSION_MAJOR}")
 message(STATUS "QT Minor version is ${QT_VERSION_MINOR}")
+message(STATUS "Bibliotheca include dir is ${BIBLIOTHECA_INCLUDE_DIRS}")

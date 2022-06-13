@@ -34,6 +34,22 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="hint_label">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <italic>true</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>hortus, horti (m)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLineEdit" name="answer_input">
       <property name="font">
        <font>
