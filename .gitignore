@@ -1,0 +1,8 @@
+# CLion auto-generated build folders.
+cmake-build*
+# Emacs backup files.
+*~
+# QT Creator file.
+CMakeLists.txt.user
+# CLion project files
+.idea

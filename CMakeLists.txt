@@ -57,3 +57,5 @@ set_target_properties(examinatio-verborum PROPERTIES
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(examinatio-verborum)
 endif()
+message(STATUS "QT Major version is ${QT_VERSION_MAJOR}")
+message(STATUS "QT Minor version is ${QT_VERSION_MINOR}")
