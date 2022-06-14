@@ -6,3 +6,5 @@ cmake-build*
 CMakeLists.txt.user
 # CLion project files
 .idea
+# Prefix files with LOCAL if you want to avoid accidentaly committing them.
+LOCAL*
