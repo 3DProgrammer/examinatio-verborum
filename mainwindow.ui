@@ -17,9 +17,18 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QLabel" name="question_label">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
-        <pointsize>20</pointsize>
+        <pointsize>24</pointsize>
        </font>
       </property>
       <property name="text">
@@ -33,8 +42,35 @@
       </property>
      </widget>
     </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="open_vocab_list_button">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Open Vocab List</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QLabel" name="hint_label">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <pointsize>14</pointsize>
@@ -51,6 +87,9 @@
     </item>
     <item>
      <widget class="QLineEdit" name="answer_input">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="font">
        <font>
         <pointsize>15</pointsize>
@@ -72,6 +111,9 @@
     </item>
     <item>
      <widget class="QPushButton" name="answer_button">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="font">
        <font>
         <pointsize>12</pointsize>
@@ -90,7 +132,7 @@
      <x>0</x>
      <y>0</y>
      <width>1011</width>
-     <height>36</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -9,6 +9,7 @@
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
 //    nouns.clear();
 //    nouns.push_back(bibliotheca::Noun("bibliotheca", "bibliothecae", bibliotheca::Gender::f, {"library"}, 1));
 //    nouns.push_back(bibliotheca::Noun("Quintus", "Quinti", bibliotheca::Gender::m, {"Quintus"}, 2));
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->hint_label->setText("");
     ui->answer_input->hide();
     ui->answer_button->hide();
+
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;
@@ -43,8 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
         nextWord();
         ui->answer_input->show();
         ui->answer_button->show();
+        ui->open_vocab_list_button->deleteLater();
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
+    connect(ui->open_vocab_list_button, &QPushButton::pressed, [=](){ui->actionOpen_Wordlist->trigger();});
     nextWord();
 }
 
