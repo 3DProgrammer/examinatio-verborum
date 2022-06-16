@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <bibliotheca.h>
+#include <QActionGroup>
+#include <QMenu>
 #include "wordChooser.h"
 #include "wordlistParser.h"
 
@@ -33,5 +35,6 @@ private:
     std::string answer;
     NounChoice choice;
     WordList wordList;
+    QMenu recentFiles;
 };
 #endif // MAINWINDOW_H

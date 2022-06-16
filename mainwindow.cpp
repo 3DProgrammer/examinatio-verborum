@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QSettings>
 #include "wordChooser.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -26,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->hint_label->setText("");
     ui->answer_input->hide();
     ui->answer_button->hide();
-
+    QSettings settings;
+    recentFiles.setTitle("&Recent wordlists");
+    ui->menuFile->addMenu(&recentFiles);
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;

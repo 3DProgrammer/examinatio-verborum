@@ -14,6 +14,11 @@ int main(int argc, char *argv[])
         std::cout<<style.toStdString()<<std::endl;
     }
     QApplication a(argc, argv);
+    a.setApplicationName("examinatio-verborum");
+    a.setApplicationDisplayName("Examinatio Verborum");
+    a.setApplicationVersion(PROJECT_VERSION_STRING);
+    a.setOrganizationName("greatcactus");
+    a.setOrganizationName("miles.greatcactus.org");
     MainWindow w;
     w.show();
     return QApplication::exec();
