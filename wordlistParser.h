@@ -11,9 +11,12 @@ class WordList {
 public:
     std::vector<bibliotheca::Noun> nouns;
     std::string name;
-    explicit WordList(const std::string& fileName);
+    explicit WordList(std::stringstream instream);
     WordList();
     static std::map<std::string,bibliotheca::Gender> stringToGender;
     static std::map<std::string,int> stringToDeclension;
+    static WordList fromData(const std::string &data);
+    static WordList fromFilename(const std::string &fileName);
+
 };
 #endif //EXAMINATIO_VERBORUM_WORDLISTPARSER_H

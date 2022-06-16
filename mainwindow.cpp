@@ -19,12 +19,11 @@ void MainWindow::setupRecentFiles() {
                 [=]() {
                     QString path = recentFileList[i];
                     std::cout << "Opening recent file " << path.toStdString() << std::endl;
-
                     recentFileList.removeAll(path);
                     recentFileList.append(path);
                     settings.setValue(SETTINGS_KEY_RECENT_FILES, QVariant(recentFileList));
                     setupRecentFiles();
-                    wordList = WordList(path.toStdString());
+                    wordList = WordList::fromFilename(path.toStdString());
                     nextWord();
                     ui->answer_input->show();
                     ui->answer_button->show();
@@ -57,8 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->hint_label->setText("");
     ui->answer_input->hide();
     ui->answer_button->hide();
-
+#ifndef __wasm__
     ui->menuFile->addMenu(&recentFiles);
+#endif
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;
@@ -68,6 +68,21 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
     connect(ui->actionOpen_Wordlist, &QAction::triggered, [=]() {
+#ifdef __wasm__
+        QFileDialog::getOpenFileContent(tr("Word lists (*.wordList)"),[=](const QString &fileName, const QByteArray &fileContent){
+            std::cout<<"File data is "<<fileContent.toStdString()<<std::endl;
+            wordList = WordList::fromData(std::string(fileContent));
+            setupRecentFiles();
+            nextWord();
+            ui->answer_input->show();
+            ui->answer_button->show();
+            if (ui->open_vocab_list_button) {
+                ui->open_vocab_list_button->deleteLater();
+                ui->open_vocab_list_button = nullptr;
+            }
+        });
+
+#else
         std::string fileName = QFileDialog::getOpenFileName(this, tr("Select Wordlist"),
                                                             QStandardPaths::writableLocation(
                                                                     QStandardPaths::HomeLocation),
@@ -76,8 +91,9 @@ MainWindow::MainWindow(QWidget *parent)
         recentFileList.removeAll(QString::fromStdString(fileName));
         recentFileList.append(QString::fromStdString(fileName));
         settings.setValue(SETTINGS_KEY_RECENT_FILES, QVariant(recentFileList));
+        wordList = WordList::fromFilename(fileName);
+
         setupRecentFiles();
-        wordList = WordList(fileName);
         nextWord();
         ui->answer_input->show();
         ui->answer_button->show();
@@ -85,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->open_vocab_list_button->deleteLater();
             ui->open_vocab_list_button = nullptr;
         }
+#endif
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
     connect(ui->open_vocab_list_button, &QPushButton::pressed, [=]() { ui->actionOpen_Wordlist->trigger(); });
