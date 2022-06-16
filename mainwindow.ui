@@ -26,7 +26,7 @@
        <string>Translate *garden* in the nominative singular.</string>
       </property>
       <property name="textFormat">
-       <enum>Qt::PlainText</enum>
+       <enum>Qt::MarkdownText</enum>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

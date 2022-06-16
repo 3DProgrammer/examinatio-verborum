@@ -6,6 +6,9 @@
 #include <map>
 
 NounChoice chooseNoun(std::vector<bibliotheca::Noun> *nouns, std::map<bibliotheca::Case, std::string> *cases, std::map<bibliotheca::Number, std::string> *numbers) {
+    if (nouns->empty()) {
+        return {};
+    }
     auto casesIterator = cases->begin();
     std::advance(casesIterator, rand() % cases->size());
     bibliotheca::Case aCase = casesIterator->first;

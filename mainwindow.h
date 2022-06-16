@@ -21,7 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     void nextWord();
-    std::vector<bibliotheca::Noun> nouns;
+    //std::vector<bibliotheca::Noun> nouns;
     std::map<bibliotheca::Case, std::string> cases = {{bibliotheca::Case::nom, "nominative"},
                                                       {bibliotheca::Case::acc, "accusative"},
                                                       {bibliotheca::Case::gen, "genitive"},
