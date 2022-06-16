@@ -10,6 +10,6 @@ N hortus horti m 2 garden
 N mater matris f 3 mother
 N pater patris m 3 father
 N servus servi m 2 slave
-N tablinum tablini n 2 study room
-N triclinium triclinii n 2 dining room
+N tablinum tablini n 2 "study room"
+N triclinium triclinii n 2 "dining room"
 N via viae f 1 street;road
