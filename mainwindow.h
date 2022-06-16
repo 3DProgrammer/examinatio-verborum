@@ -5,9 +5,10 @@
 #include <bibliotheca.h>
 #include <QActionGroup>
 #include <QMenu>
+#include <QSettings>
 #include "wordChooser.h"
 #include "wordlistParser.h"
-
+#define SETTINGS_KEY_RECENT_FILES "recentFiles"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -36,5 +37,8 @@ private:
     NounChoice choice;
     WordList wordList;
     QMenu recentFiles;
+    void setupRecentFiles();
+    QList<QString> recentFileList;
+    QSettings settings;
 };
 #endif // MAINWINDOW_H

@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     a.setApplicationDisplayName("Examinatio Verborum");
     a.setApplicationVersion(PROJECT_VERSION_STRING);
     a.setOrganizationName("greatcactus");
-    a.setOrganizationName("miles.greatcactus.org");
+    a.setOrganizationName("greatcactus.org");
     MainWindow w;
     w.show();
     return QApplication::exec();

@@ -7,10 +7,40 @@
 #include <QSettings>
 #include "wordChooser.h"
 
+void MainWindow::setupRecentFiles() {
+    while (!recentFiles.actions().empty()) {
+        recentFiles.removeAction(recentFiles.actions()[0]);
+    }
+    recentFiles.setTitle("&Recent wordlists");
+    recentFileList = settings.value(SETTINGS_KEY_RECENT_FILES, QVariant(QList<QString>())).value<QList<QString>>();
+    for (int i = recentFileList.size() - 1; i >= 0; i--) {
+        auto action = new QAction(recentFileList[i]);
+        connect(action, &QAction::triggered,
+                [=]() {
+                    QString path = recentFileList[i];
+                    std::cout << "Opening recent file " << path.toStdString() << std::endl;
+
+                    recentFileList.removeAll(path);
+                    recentFileList.append(path);
+                    settings.setValue(SETTINGS_KEY_RECENT_FILES, QVariant(recentFileList));
+                    setupRecentFiles();
+                    wordList = WordList(path.toStdString());
+                    nextWord();
+                    ui->answer_input->show();
+                    ui->answer_button->show();
+                    if (ui->open_vocab_list_button) {
+                        ui->open_vocab_list_button->deleteLater();
+                        ui->open_vocab_list_button = nullptr;
+                    }
+                });
+        recentFiles.addAction(action);
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
+    setupRecentFiles();
 //    nouns.clear();
 //    nouns.push_back(bibliotheca::Noun("bibliotheca", "bibliothecae", bibliotheca::Gender::f, {"library"}, 1));
 //    nouns.push_back(bibliotheca::Noun("Quintus", "Quinti", bibliotheca::Gender::m, {"Quintus"}, 2));
@@ -27,8 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->hint_label->setText("");
     ui->answer_input->hide();
     ui->answer_button->hide();
-    QSettings settings;
-    recentFiles.setTitle("&Recent wordlists");
+
     ui->menuFile->addMenu(&recentFiles);
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
@@ -44,14 +73,21 @@ MainWindow::MainWindow(QWidget *parent)
                                                                     QStandardPaths::HomeLocation),
                                                             tr("Word lists (*.wordList)")).toStdString();
         std::cout << "Opening file " << fileName << std::endl;
+        recentFileList.removeAll(QString::fromStdString(fileName));
+        recentFileList.append(QString::fromStdString(fileName));
+        settings.setValue(SETTINGS_KEY_RECENT_FILES, QVariant(recentFileList));
+        setupRecentFiles();
         wordList = WordList(fileName);
         nextWord();
         ui->answer_input->show();
         ui->answer_button->show();
-        ui->open_vocab_list_button->deleteLater();
+        if (ui->open_vocab_list_button) {
+            ui->open_vocab_list_button->deleteLater();
+            ui->open_vocab_list_button = nullptr;
+        }
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
-    connect(ui->open_vocab_list_button, &QPushButton::pressed, [=](){ui->actionOpen_Wordlist->trigger();});
+    connect(ui->open_vocab_list_button, &QPushButton::pressed, [=]() { ui->actionOpen_Wordlist->trigger(); });
     nextWord();
 }
 
@@ -61,7 +97,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::nextWord() {
     choice = chooseNoun(&wordList.nouns, &cases, &numbers);
-    if (choice.noun!= nullptr) {
+    if (choice.noun != nullptr) {
         ui->question_label->setText(QString::fromStdString(
                 "Translate *" + choice.noun->getEnglish() + "* in the " + cases[choice.nounCase] + " " +
                 numbers[choice.nounNumber] + "."));
