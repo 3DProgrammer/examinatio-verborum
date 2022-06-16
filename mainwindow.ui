@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1011</width>
     <height>600</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
        <string>Translate *garden* in the nominative singular.</string>
       </property>
       <property name="textFormat">
-       <enum>Qt::MarkdownText</enum>
+       <enum>Qt::PlainText</enum>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -89,11 +89,50 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>20</height>
+     <width>1011</width>
+     <height>36</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionNew_Wordlist"/>
+    <addaction name="actionOpen_Wordlist"/>
+   </widget>
+   <widget class="QMenu" name="menuWordlist">
+    <property name="title">
+     <string>&amp;Wordlist</string>
+    </property>
+    <addaction name="actionAdd_Noun"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuWordlist"/>
   </widget>
+  <action name="actionOpen_Wordlist">
+   <property name="text">
+    <string>&amp;Open Wordlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionNew_Wordlist">
+   <property name="text">
+    <string>&amp;New Wordlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionAdd_Noun">
+   <property name="text">
+    <string>Add &amp;Noun</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+N</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

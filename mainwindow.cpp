@@ -2,6 +2,8 @@
 #include "./ui_mainwindow.h"
 #include <bibliotheca.h>
 #include <iostream>
+#include <QFileDialog>
+#include <QStandardPaths>
 #include "wordChooser.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,13 +24,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->answer_input->setText("");
     ui->hint_label->setText("");
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
-        if (ui->answer_input->text().toStdString()==answer) {
-            std::cout<<"Correct!"<<std::endl;
+        if (ui->answer_input->text().toStdString() == answer) {
+            std::cout << "Correct!" << std::endl;
             nextWord();
-        }
-        else {
+        } else {
             ui->hint_label->setText(QString::fromStdString(choice.noun->getLatin()));
         }
+    });
+    connect(ui->actionOpen_Wordlist, &QAction::triggered, [=]() {
+        std::string fileName = QFileDialog::getOpenFileName(this, tr("Select Wordlist"),
+                                                            QStandardPaths::writableLocation(
+                                                                    QStandardPaths::HomeLocation),
+                                                            tr("Word lists (*.wordList)")).toStdString();
+        std::cout << "Opening file " << fileName << std::endl;
+        wordList = WordList(fileName);
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
     nextWord();
@@ -40,8 +49,10 @@ MainWindow::~MainWindow() {
 
 void MainWindow::nextWord() {
     choice = chooseNoun(&nouns, &cases, &numbers);
-    ui->question_label->setText(QString::fromStdString("Translate *"+choice.noun->getEnglish()+"* in the "+cases[choice.nounCase]+" "+numbers[choice.nounNumber]+"."));
-    answer=choice.noun->noun(choice.nounCase, choice.nounNumber);
+    ui->question_label->setText(QString::fromStdString(
+            "Translate *" + choice.noun->getEnglish() + "* in the " + cases[choice.nounCase] + " " +
+            numbers[choice.nounNumber] + "."));
+    answer = choice.noun->noun(choice.nounCase, choice.nounNumber);
     ui->answer_input->setText("");
     ui->hint_label->setText("");
 }

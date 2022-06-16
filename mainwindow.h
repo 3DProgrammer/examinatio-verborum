@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <bibliotheca.h>
 #include "wordChooser.h"
+#include "wordlistParser.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -30,5 +32,6 @@ private:
                                                           {bibliotheca::Number::plural,   "plural"}};
     std::string answer;
     NounChoice choice;
+    WordList wordList;
 };
 #endif // MAINWINDOW_H
