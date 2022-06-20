@@ -10,6 +10,7 @@
 class WordList {
 public:
     std::vector<bibliotheca::Noun> nouns;
+    std::vector<bibliotheca::Verb> verbs;
     std::string name;
     explicit WordList(std::stringstream instream);
     WordList();

@@ -13,3 +13,5 @@ N servus servi m 2 slave
 N tablinum tablini n 2 "study room"
 N triclinium triclinii n 2 "dining room"
 N via viae f 1 street;road
+V laboro laborare laboravi laboratus work
+V sedeo sedere sedi sessus sit

@@ -34,11 +34,15 @@ private:
     std::map<bibliotheca::Number, std::string> numbers = {{bibliotheca::Number::singular, "singular"},
                                                           {bibliotheca::Number::plural,   "plural"}};
     std::string answer;
-    NounChoice choice;
+    NounChoice nounChoice;
+    VerbChoice verbChoice;
+    WordChoice wordChoice;
     WordList wordList;
+    std::vector<std::pair<VerbOption,int>> verbOptionWeights;
     QMenu recentFiles;
     void setupRecentFiles();
     QList<QString> recentFileList;
     QSettings settings;
+    void buildOptionWeights();
 };
 #endif // MAINWINDOW_H
