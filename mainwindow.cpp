@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "wordChooser.h"
 #include "settingsWindow/settingswindow.h"
+#include "style/NoxStyle.h"
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
@@ -106,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
     connect(ui->actionOpenSettings, &QAction::triggered, [=]() {
-        auto dialogWindow = new SettingsWindow(defaultStyle);
+        auto dialogWindow = new SettingsWindow();
         dialogWindow->show();
     });
     connect(ui->actionOpen_Wordlist, &QAction::triggered, [=]() {

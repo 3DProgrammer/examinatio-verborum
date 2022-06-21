@@ -19,7 +19,7 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        wordChooser.cpp wordChooser.h wordlistParser.cpp wordlistParser.h settingsWindow/settingswindow.cpp settingsWindow/settingswindow.h settingsWindow/settingswindow.ui)
+        wordChooser.cpp wordChooser.h wordlistParser.cpp wordlistParser.h settingsWindow/settingswindow.cpp settingsWindow/settingswindow.h settingsWindow/settingswindow.ui style/NoxStyle.cpp style/NoxStyle.h res/style_res.qrc)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(examinatio-verborum

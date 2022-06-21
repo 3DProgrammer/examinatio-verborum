@@ -1,7 +1,3 @@
-//
-// Created by miles on 21/6/22.
-//
-
 #ifndef EXAMINATIO_VERBORUM_SETTINGSWINDOW_H
 #define EXAMINATIO_VERBORUM_SETTINGSWINDOW_H
 
@@ -18,7 +14,7 @@ class SettingsWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit SettingsWindow(QStyle * _defaultStyle, QWidget *parent = nullptr);
+    explicit SettingsWindow(QWidget *parent = nullptr);
     ~SettingsWindow() override;
     QString defaultStyle;
 private:

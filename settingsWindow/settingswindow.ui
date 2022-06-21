@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>SettingsWindow</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -41,6 +41,13 @@
        <string>Weights</string>
       </attribute>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="exitButton">
+     <property name="text">
+      <string>Done</string>
+     </property>
     </widget>
    </item>
   </layout>

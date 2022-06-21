@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>noxbackground.png</file>
+        <file>noxbutton.png</file>
+    </qresource>
+</RCC>
