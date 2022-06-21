@@ -141,6 +141,7 @@
     </property>
     <addaction name="actionNew_Wordlist"/>
     <addaction name="actionOpen_Wordlist"/>
+    <addaction name="actionOpenSettings"/>
    </widget>
    <widget class="QMenu" name="menuWordlist">
     <property name="title">
@@ -173,6 +174,14 @@
    </property>
    <property name="shortcut">
     <string>Alt+N</string>
+   </property>
+  </action>
+  <action name="actionOpenSettings">
+   <property name="text">
+    <string>&amp;Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
  </widget>

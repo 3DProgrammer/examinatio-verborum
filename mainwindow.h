@@ -20,7 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    QStyle * defaultStyle;
 private:
     Ui::MainWindow *ui;
     void nextWord();

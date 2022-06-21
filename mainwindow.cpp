@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "wordChooser.h"
+#include "settingsWindow/settingswindow.h"
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
@@ -103,6 +104,10 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->hint_label->setText(QString::fromStdString(verbChoice.verb->getLatin()));
             }
         }
+    });
+    connect(ui->actionOpenSettings, &QAction::triggered, [=]() {
+        auto dialogWindow = new SettingsWindow(defaultStyle);
+        dialogWindow->show();
     });
     connect(ui->actionOpen_Wordlist, &QAction::triggered, [=]() {
 #ifdef __wasm__
