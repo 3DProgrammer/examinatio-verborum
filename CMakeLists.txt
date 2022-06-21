@@ -19,13 +19,20 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        wordChooser.cpp wordChooser.h wordlistParser.cpp wordlistParser.h settingsWindow/settingswindow.cpp settingsWindow/settingswindow.h settingsWindow/settingswindow.ui style/NoxStyle.cpp style/NoxStyle.h res/style_res.qrc)
+        wordChooser.cpp wordChooser.h wordlistParser.cpp wordlistParser.h settingsWindow/settingswindow.cpp settingsWindow/settingswindow.h settingsWindow/settingswindow.ui style/NoxStyle.cpp style/NoxStyle.h)
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(examinatio-verborum
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
+        qt_add_resources(examinatio-verborum "style_resources"
+                PREFIX "/"
+                FILES
+                res/noxbackground.png
+                res/noxbutton.png
+                )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET examinatio-verborum APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -40,6 +47,7 @@ else()
     else()
         add_executable(examinatio-verborum
             ${PROJECT_SOURCES}
+                res/style_res.qrc
         )
     endif()
 endif()

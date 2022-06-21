@@ -17,8 +17,8 @@ QPalette NoxStyle::standardPalette() const {
     if (!m_standardPalette.isBrushSet(QPalette::Disabled, QPalette::Mid)) {
         QColor slightlyOpaqueBlack(0, 0, 0, 63);
         QColor textColor = Qt::white;
-        QImage backgroundImage(":/noxbackground.png");
-        QImage buttonImage(":/noxbutton.png");
+        QImage backgroundImage(":/res/noxbackground.png");
+        QImage buttonImage(":/res/noxbutton.png");
         QImage midImage = buttonImage.convertToFormat(QImage::Format_RGB32);
         QPainter painter;
         painter.begin(&midImage);
