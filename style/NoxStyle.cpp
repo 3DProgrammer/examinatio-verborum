@@ -112,12 +112,21 @@ void NoxStyle::drawPrimitive(QStyle::PrimitiveElement element,
             if (pressed) {
                 painter->fillPath(roundRect, QColor(255, 255, 255, 50));
             }
-
-            QPen pen(QColor(255,255,255), 2);
-            painter->setClipPath(roundRect);
-            painter->setPen(pen);
-            painter->drawPath(roundRect);
-
+            for (int i=10; i>0; i--) {
+                QPen pen(QColor(255,255,255,26),i);
+                painter->setClipPath(roundRect);
+                painter->setPen(pen);
+                painter->drawPath(roundRect);
+            }
+//            QPen pen(QColor(255,255,255,128), 10);
+//            painter->setClipPath(roundRect);
+//            painter->setPen(pen);
+//            painter->drawPath(roundRect);
+//            pen= QPen(QColor(255,255,255), 2);
+//            painter->setClipPath(roundRect);
+//            painter->setPen(pen);
+//            painter->drawPath(roundRect);
+            painter->setTransform(QTransform());
             painter->setPen(option->palette.windowText().color());
             painter->setClipping(false);
             painter->drawPath(roundRect);
