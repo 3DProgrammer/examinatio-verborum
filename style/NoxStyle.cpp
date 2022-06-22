@@ -118,6 +118,17 @@ void NoxStyle::drawPrimitive(QStyle::PrimitiveElement element,
                 painter->setPen(pen);
                 painter->drawPath(roundRect);
             }
+//            QConicalGradient gradient;
+//            gradient.setCenter(x+width/2, y+height/2);
+//            gradient.setColorAt(0, QColor(255,0,0));
+//            gradient.setColorAt(1.0/3.0, QColor(0,255,0));
+//            gradient.setColorAt(2.0/3.0,QColor(0,0,255));
+//            gradient.setColorAt(1,QColor(255,0,0));
+//            QPen pen(QBrush(gradient),10);
+//            painter->setClipPath(roundRect);
+//            painter->setPen(pen);
+//            painter->drawPath(roundRect);
+
 //            QPen pen(QColor(255,255,255,128), 10);
 //            painter->setClipPath(roundRect);
 //            painter->setPen(pen);
