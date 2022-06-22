@@ -1,8 +1,10 @@
 #include "mainwindow.h"
-
+#include "settingsWindow/settingswindow.h"
+#include "style/NoxStyle.h"
 #include <QApplication>
-#include <QStyleFactory>
 #include <QDirIterator>
+#include <QStyle>
+#include <QStyleFactory>
 #include <iostream>
 int main(int argc, char *argv[])
 {
@@ -24,6 +26,21 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(PROJECT_VERSION_STRING);
     a.setOrganizationName("greatcactus");
     a.setOrganizationName("greatcactus.org");
+    QSettings settings;
+    QVariant customThemeType=settings.value(SETTINGS_THEME_TYPE_KEY);
+    if (!customThemeType.isNull()) {
+        if (customThemeType.toString()==SETTINGS_THEME_TYPE_NAME) {
+            a.setStyle(settings.value(SETTINGS_THEME_NAME_KEY, QVariant(a.style()->objectName())).toString());
+        }
+        else if (customThemeType.toString()==SETTINGS_THEME_TYPE_BUILTIN) {
+            QString themeName=settings.value(SETTINGS_THEME_NAME_KEY, QVariant("Nox")).toString();
+            if (themeName=="Nox") {
+                a.setStyle(new NoxStyle);
+            }
+        }
+
+        QApplication::setPalette(QApplication::style()->standardPalette());
+    }
     MainWindow w;
     w.defaultStyle=a.style();
     w.show();

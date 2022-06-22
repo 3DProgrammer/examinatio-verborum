@@ -2,7 +2,10 @@
 #define EXAMINATIO_VERBORUM_SETTINGSWINDOW_H
 
 #include <QWidget>
-
+#define SETTINGS_THEME_TYPE_KEY "theme_type"
+#define SETTINGS_THEME_TYPE_NAME "name"
+#define SETTINGS_THEME_TYPE_BUILTIN "builtin"
+#define SETTINGS_THEME_NAME_KEY "theme_name"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
