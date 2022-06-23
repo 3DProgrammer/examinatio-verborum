@@ -40,6 +40,7 @@ private:
     WordList wordList;
     std::vector<std::pair<VerbOption,int>> verbOptionWeights;
     QMenu recentFiles;
+    QMenu examples;
     void setupRecentFiles();
     QList<QString> recentFileList;
     QSettings settings;

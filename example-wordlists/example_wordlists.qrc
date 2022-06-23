@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/example-wordlists/">
+        <file>CLCStage1.wordList</file>
+        <file>exampleVocab.wordList</file>
+        <file>L2GCSE.wordList</file>
+    </qresource>
+</RCC>

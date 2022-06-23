@@ -33,6 +33,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
                 res/noxbackground.png
                 res/noxbutton.png
                 )
+    qt_add_resources(examinatio-verborum "example-wordlists"
+            PREFIX "/"
+            FILES
+            example-wordlists/CLCStage1.wordList
+            example-wordlists/exampleVocab.wordList
+            example-wordlists/L2GCSE9.wordList)
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET examinatio-verborum APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -48,6 +54,7 @@ else()
         add_executable(examinatio-verborum
             ${PROJECT_SOURCES}
                 res/style_res.qrc
+                example-wordlists/example_wordlists.qrc
         )
     endif()
 endif()

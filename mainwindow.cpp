@@ -1,8 +1,9 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "wordChooser.h"
 #include "settingsWindow/settingswindow.h"
 #include "style/NoxStyle.h"
+#include "wordChooser.h"
+#include <QDirIterator>
 #include <QFileDialog>
 #include <QSettings>
 #include <QStandardPaths>
@@ -17,19 +18,19 @@ void MainWindow::buildOptionWeights() {
         for (auto tense: {bibliotheca::Tense::present, bibliotheca::Tense::perfect, bibliotheca::Tense::future}) {
             verbOptionWeights.emplace_back(VerbOption(1, bibliotheca::Number::singular, tense, voice, bibliotheca::Mood::infinitive), 1);
         }
-        for (auto tense:{bibliotheca::Tense::pluperfect,bibliotheca::Tense::perfect,bibliotheca::Tense::imperfect,bibliotheca::Tense::present}) {
-            for (auto mood:{bibliotheca::Mood::indicative,bibliotheca::Mood::subjunctive}) {
-                for (auto number:{bibliotheca::Number::singular,bibliotheca::Number::plural}) {
-                    for (auto person:{1,2,3}) {
-                        verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, mood),1);
+        for (auto tense: {bibliotheca::Tense::pluperfect, bibliotheca::Tense::perfect, bibliotheca::Tense::imperfect, bibliotheca::Tense::present}) {
+            for (auto mood: {bibliotheca::Mood::indicative, bibliotheca::Mood::subjunctive}) {
+                for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
+                    for (auto person: {1, 2, 3}) {
+                        verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, mood), 1);
                     }
                 }
             }
         }
-        for (auto tense:{bibliotheca::Tense::future,bibliotheca::Tense::futureperfect}) {
-            for (auto number:{bibliotheca::Number::singular,bibliotheca::Number::plural}) {
-                for (auto person:{1,2,3}) {
-                    verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, bibliotheca::Mood::indicative),1);
+        for (auto tense: {bibliotheca::Tense::future, bibliotheca::Tense::futureperfect}) {
+            for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
+                for (auto person: {1, 2, 3}) {
+                    verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, bibliotheca::Mood::indicative), 1);
                 }
             }
         }
@@ -91,16 +92,37 @@ MainWindow::MainWindow(QWidget *parent)
 #ifndef __wasm__
     ui->menuFile->addMenu(&recentFiles);
 #endif
+    QDirIterator it(":/example-wordlists", QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString name=it.next();
+        examples.addAction(name, [=]() {
+            std::cout<<name.toStdString()<<std::endl;
+            QFile file(name);
+            file.open(QIODeviceBase::ReadOnly);
+            wordList = WordList::fromData(QString(file.read(file.size())).toStdString());
+            file.close();
+            setupRecentFiles();
+            nextWord();
+            ui->answer_input->show();
+            ui->answer_button->show();
+            if (ui->open_vocab_list_button_layout_widget) {
+                ui->open_vocab_list_button_layout_widget->deleteLater();
+                ui->open_vocab_list_button_layout_widget = nullptr;
+            }
+        });
+    }
+    examples.setTitle("&Example wordlists");
+    ui->menuFile->addMenu(&examples);
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;
             nextWord();
         }
-        else if (ui->answer_input->text().toStdString()=="OVERRIDE_PRINT_ANSWER") {
-            std::cout<<answer<<std::endl;
+        else if (ui->answer_input->text().toStdString() == "OVERRIDE_PRINT_ANSWER") {
+            std::cout << answer << std::endl;
         }
         else {
-            if (ui->hint_label->text().size()>0) {
+            if (ui->hint_label->text().size() > 0) {
                 ui->skip_button->show();
             }
             if (wordChoice == WordChoice::Noun) {
@@ -111,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
             }
         }
     });
-    connect(ui->skip_button, &QPushButton::pressed, [=](){
+    connect(ui->skip_button, &QPushButton::pressed, [=]() {
         nextWord();
     });
     connect(ui->actionOpenSettings, &QAction::triggered, [=]() {
