@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QStyleFactory>
 #include <iostream>
+#include <QFontDialog>
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
@@ -21,6 +22,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
     ui->themeSelectionBox->addItem("Nox");
     ui->themeSelectionBox->addItem("Neon");
     ui->themeSelectionBox->setCurrentIndex(-1);
+    ui->font_select_button->setText(ui->themeSelectionLabel->font().family());
     connect(ui->themeSelectionBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index){
         QSettings settings;
         std::cout<<"Combo box changed to item #"<<index<<std::endl;
@@ -48,6 +50,12 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
     });
     connect(ui->exitButton, &QPushButton::pressed, [=](){
         deleteLater();
+    });
+    connect(ui->font_select_button, &QPushButton::pressed, [=](){
+        QFont font = QFontDialog::getFont(nullptr, ui->themeSelectionLabel->font());
+        std::cout<<font.family().toStdString()<<std::endl;
+        ui->font_select_button->setText(font.family());
+        QApplication::setFont(font);
     });
 }
 
