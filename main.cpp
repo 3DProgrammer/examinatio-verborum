@@ -29,24 +29,27 @@ int main(int argc, char *argv[])
     a.setOrganizationName("greatcactus.org");
     QSettings settings;
     QVariant customThemeType=settings.value(SETTINGS_THEME_TYPE_KEY);
+    MainWindow w;
     if (!customThemeType.isNull()) {
+        a.setStyleSheet("");
         if (customThemeType.toString()==SETTINGS_THEME_TYPE_NAME) {
             a.setStyle(settings.value(SETTINGS_THEME_NAME_KEY, QVariant(a.style()->objectName())).toString());
+            QApplication::setPalette(a.style()->standardPalette());
+
         }
         else if (customThemeType.toString()==SETTINGS_THEME_TYPE_BUILTIN) {
             QString themeName=settings.value(SETTINGS_THEME_NAME_KEY, QVariant("Nox")).toString();
             if (themeName=="Nox") {
                 a.setStyle(new NoxStyle);
+                QApplication::setPalette((new NoxStyle)->standardPalette());
             }
             else if (themeName=="Neon") {
                 a.setStyle(new NeonStyle);
+                QApplication::setPalette((new NeonStyle)->standardPalette());
             }
         }
 
-        QApplication::setPalette(QApplication::style()->standardPalette());
     }
-    MainWindow w;
-    w.defaultStyle=a.style();
     w.show();
     return QApplication::exec();
 }

@@ -44,5 +44,6 @@ private:
     QList<QString> recentFileList;
     QSettings settings;
     void buildOptionWeights();
+    void resizeEvent(QResizeEvent * event);
 };
 #endif // MAINWINDOW_H

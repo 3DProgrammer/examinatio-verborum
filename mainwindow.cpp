@@ -55,9 +55,9 @@ void MainWindow::setupRecentFiles() {
                     nextWord();
                     ui->answer_input->show();
                     ui->answer_button->show();
-                    if (ui->open_vocab_list_button) {
-                        ui->open_vocab_list_button->deleteLater();
-                        ui->open_vocab_list_button = nullptr;
+                    if (ui->open_vocab_list_button_layout_widget) {
+                        ui->open_vocab_list_button_layout_widget->deleteLater();
+                        ui->open_vocab_list_button_layout_widget = nullptr;
                     }
                 });
         recentFiles.addAction(action);
@@ -85,6 +85,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->hint_label->setText("");
     ui->answer_input->hide();
     ui->answer_button->hide();
+    ui->skip_button->hide();
+    ui->open_vocab_list_button_layout_widget->setFixedSize(ui->centralwidget->size());
+    ui->stuff_layout_widget->setFixedSize(ui->centralwidget->size());
 #ifndef __wasm__
     ui->menuFile->addMenu(&recentFiles);
 #endif
@@ -97,7 +100,9 @@ MainWindow::MainWindow(QWidget *parent)
             std::cout<<answer<<std::endl;
         }
         else {
-
+            if (ui->hint_label->text().size()>0) {
+                ui->skip_button->show();
+            }
             if (wordChoice == WordChoice::Noun) {
                 ui->hint_label->setText(QString::fromStdString(nounChoice.noun->getLatin()));
             }
@@ -105,6 +110,9 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->hint_label->setText(QString::fromStdString(verbChoice.verb->getLatin()));
             }
         }
+    });
+    connect(ui->skip_button, &QPushButton::pressed, [=](){
+        nextWord();
     });
     connect(ui->actionOpenSettings, &QAction::triggered, [=]() {
         auto dialogWindow = new SettingsWindow();
@@ -141,9 +149,9 @@ MainWindow::MainWindow(QWidget *parent)
                 nextWord();
                 ui->answer_input->show();
                 ui->answer_button->show();
-                if (ui->open_vocab_list_button) {
-                    ui->open_vocab_list_button->deleteLater();
-                    ui->open_vocab_list_button = nullptr;
+                if (ui->open_vocab_list_button_layout_widget) {
+                    ui->open_vocab_list_button_layout_widget->deleteLater();
+                    ui->open_vocab_list_button_layout_widget = nullptr;
                 }
 #endif
     });
@@ -157,6 +165,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::nextWord() {
+    ui->skip_button->hide();
     if (rand() % 2 == 0) {
         wordChoice = WordChoice::Verb;
         verbChoice = chooseVerb(&wordList.verbs, verbOptionWeights);
@@ -204,4 +213,11 @@ void MainWindow::nextWord() {
             ui->hint_label->setText("");
         }
     }
+}
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    if (ui->open_vocab_list_button_layout_widget) {
+        ui->open_vocab_list_button_layout_widget->setFixedSize(ui->centralwidget->size());
+    }
+    ui->stuff_layout_widget->setFixedSize(ui->centralwidget->size());
+    QWidget::resizeEvent(event);
 }
