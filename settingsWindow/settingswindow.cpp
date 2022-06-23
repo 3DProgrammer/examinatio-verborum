@@ -1,6 +1,7 @@
 #include "settingswindow.h"
 #include "style/NoxStyle.h"
 #include "ui_settingswindow.h"
+#include "style/NeonStyle.h"
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QSettings>
@@ -18,6 +19,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
         ui->themeSelectionBox->addItem(style);
     }
     ui->themeSelectionBox->addItem("Nox");
+    ui->themeSelectionBox->addItem("Neon");
     ui->themeSelectionBox->setCurrentIndex(-1);
     connect(ui->themeSelectionBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index){
         QSettings settings;
@@ -35,6 +37,12 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
                 QApplication::setPalette(QApplication::style()->standardPalette());
                 settings.setValue(SETTINGS_THEME_TYPE_KEY, SETTINGS_THEME_TYPE_BUILTIN);
                 settings.setValue(SETTINGS_THEME_NAME_KEY, "Nox");
+            }
+            else if (ui->themeSelectionBox->itemText(index)=="Neon") {
+                QApplication::setStyle(new NeonStyle);
+                QApplication::setPalette(QApplication::style()->standardPalette());
+                settings.setValue(SETTINGS_THEME_TYPE_KEY, SETTINGS_THEME_TYPE_BUILTIN);
+                settings.setValue(SETTINGS_THEME_NAME_KEY, "Neon");
             }
         }
     });

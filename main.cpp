@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "settingsWindow/settingswindow.h"
 #include "style/NoxStyle.h"
+#include "style/NeonStyle.h"
 #include <QApplication>
 #include <QDirIterator>
 #include <QStyle>
@@ -36,6 +37,9 @@ int main(int argc, char *argv[])
             QString themeName=settings.value(SETTINGS_THEME_NAME_KEY, QVariant("Nox")).toString();
             if (themeName=="Nox") {
                 a.setStyle(new NoxStyle);
+            }
+            else if (themeName=="Neon") {
+                a.setStyle(new NeonStyle);
             }
         }
 
