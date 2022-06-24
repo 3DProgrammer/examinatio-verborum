@@ -39,14 +39,16 @@ QPalette NeonStyle::standardPalette() const {
     return m_standardPalette;
 }
 void NeonStyle::polish(QWidget *widget) {
-    if (qobject_cast<QPushButton *>(widget) || qobject_cast<QComboBox *>(widget) || qobject_cast<QLineEdit *>(widget))
+    if (qobject_cast<QPushButton *>(widget) || qobject_cast<QComboBox *>(widget) || qobject_cast<QLineEdit *>(widget)) {
         widget->setAttribute(Qt::WA_Hover, true);
+    }
 }
 
 
 void NeonStyle::unpolish(QWidget *widget) {
-    if (qobject_cast<QPushButton *>(widget) || qobject_cast<QComboBox *>(widget) || qobject_cast<QLineEdit *>(widget))
+    if (qobject_cast<QPushButton *>(widget) || qobject_cast<QComboBox *>(widget) || qobject_cast<QLineEdit *>(widget)) {
         widget->setAttribute(Qt::WA_Hover, false);
+    }
 }
 void NeonStyle::drawPrimitive(QStyle::PrimitiveElement element,
 
