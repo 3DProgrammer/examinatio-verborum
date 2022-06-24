@@ -71,8 +71,10 @@ void NeonStyle::drawPrimitive(QStyle::PrimitiveElement element,
                 painter->fillPath(roundRect, QColor(255, 255, 255, 50));
             }
 
-            QConicalGradient gradient;
-            gradient.setCenter(x + width / 2.0, y + height / 2.0);
+            QLinearGradient gradient;
+            //gradient.setCenter(x + width / 2.0, y + height / 2.0);
+            gradient.setStart(x, 0);
+            gradient.setFinalStop(x+width, 0);
             std::vector<QColor> colours = { //Colours taken from https://stackoverflow.com/questions/56418763/creating-the-perfect-rainbow-gradient-in-css
                     {255, 0, 0},
                     {255, 154, 0},
@@ -89,6 +91,7 @@ void NeonStyle::drawPrimitive(QStyle::PrimitiveElement element,
                 for (int i = 0; i < colours.size(); ++i) {
                     gradient.setColorAt(float(i) / float(colours.size() - 1), colours[i]);
                 }
+                painter->fillPath(roundRect,QBrush(gradient));
             }
             else {
                 for (int i = 0; i < colours.size(); ++i) {
