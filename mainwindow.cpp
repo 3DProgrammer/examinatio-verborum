@@ -5,6 +5,7 @@
 #include "wordChooser.h"
 #include <QDirIterator>
 #include <QFileDialog>
+#include <QPropertyAnimation>
 #include <QSettings>
 #include <QStandardPaths>
 #include <bibliotheca.h>
@@ -68,6 +69,7 @@ void MainWindow::setupRecentFiles() {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
     setupRecentFiles();
     buildOptionWeights();
     //    nouns.clear();
@@ -89,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->skip_button->hide();
     ui->open_vocab_list_button_layout_widget->setFixedSize(ui->centralwidget->size());
     ui->stuff_layout_widget->setFixedSize(ui->centralwidget->size());
+
 #ifndef __wasm__
     ui->menuFile->addMenu(&recentFiles);
 #endif
@@ -106,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->answer_input->show();
             ui->answer_button->show();
             if (ui->open_vocab_list_button_layout_widget) {
+
                 ui->open_vocab_list_button_layout_widget->deleteLater();
                 ui->open_vocab_list_button_layout_widget = nullptr;
             }
@@ -172,13 +176,28 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->answer_input->show();
                 ui->answer_button->show();
                 if (ui->open_vocab_list_button_layout_widget) {
+
                     ui->open_vocab_list_button_layout_widget->deleteLater();
                     ui->open_vocab_list_button_layout_widget = nullptr;
                 }
 #endif
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
-    connect(ui->open_vocab_list_button, &QPushButton::pressed, [=]() { ui->actionOpen_Wordlist->trigger(); });
+    connect(ui->open_vocab_list_button, &QPushButton::pressed, [=]() {
+        auto *buttonAnimation = new QPropertyAnimation(ui->open_vocab_list_button, "geometry");
+        buttonAnimation->setDuration(500);
+        buttonAnimation->setStartValue(ui->open_vocab_list_button->geometry());
+        buttonAnimation->setEndValue(ui->open_vocab_list_button->geometry().adjusted(-10,-10,10,10));
+        buttonAnimation->setEasingCurve(QEasingCurve::OutElastic);
+        connect(buttonAnimation, &QAbstractAnimation::finished, [=](){
+            std::cout<<"Animation finished"<<std::endl;
+            ui->actionOpen_Wordlist->triggered();
+            buttonAnimation->deleteLater();
+        });
+        buttonAnimation->start();
+        std::cout<<"Animation started"<<std::endl;
+
+    });
     nextWord();
 }
 
