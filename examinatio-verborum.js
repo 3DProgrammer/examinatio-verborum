@@ -12330,10 +12330,10 @@ var ___errno_location = Module["___errno_location"] = createExportWrapper("__err
 var _fflush = Module["_fflush"] = createExportWrapper("fflush");
 
 /** @type {function(...*):?} */
-var _free = Module["_free"] = createExportWrapper("free");
+var _malloc = Module["_malloc"] = createExportWrapper("malloc");
 
 /** @type {function(...*):?} */
-var _malloc = Module["_malloc"] = createExportWrapper("malloc");
+var _free = Module["_free"] = createExportWrapper("free");
 
 /** @type {function(...*):?} */
 var _saveSetjmp = Module["_saveSetjmp"] = createExportWrapper("saveSetjmp");
