@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>addverb</class>
+    <widget class="QDialog" name="addverb">
+        <property name="windowModality">
+            <enum>Qt::NonModal</enum>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>500</width>
+                <height>300</height>
+            </rect>
+        </property>
+        <property name="contextMenuPolicy">
+            <enum>Qt::PreventContextMenu</enum>
+        </property>
+        <property name="windowTitle">
+            <string>Add Verb</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+            <property name="spacing">
+                <number>0</number>
+            </property>
+            <property name="leftMargin">
+                <number>0</number>
+            </property>
+            <property name="topMargin">
+                <number>0</number>
+            </property>
+            <property name="rightMargin">
+                <number>0</number>
+            </property>
+            <property name="bottomMargin">
+                <number>0</number>
+            </property>
+            <item>
+                <layout class="QFormLayout" name="formLayout">
+                    <item row="0" column="1">
+                        <widget class="QLineEdit" name="present"/>
+                    </item>
+                    <item row="1" column="1">
+                        <widget class="QLineEdit" name="inf"/>
+                    </item>
+                    <item row="2" column="1">
+                        <widget class="QLineEdit" name="perfect"/>
+                    </item>
+                    <item row="3" column="1">
+                        <widget class="QLineEdit" name="participle"/>
+                    </item>
+
+                    <item row="0" column="0">
+                        <widget class="QLabel" name="label">
+                            <property name="text">
+                                <string>1st sing. present:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="1" column="0">
+                        <widget class="QLabel" name="label_2">
+                            <property name="text">
+                                <string>Present infinitive:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="2" column="0">
+                        <widget class="QLabel" name="label_3">
+                            <property name="text">
+                                <string>1st singular perfect:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="3" column="0">
+                        <widget class="QLabel" name="label_4">
+                            <property name="text">
+                                <string>Perfect passive participle:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="4" column="0">
+                        <widget class="QLabel" name="label_5">
+                            <property name="text">
+                                <string>English Translations:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="4" column="1">
+                        <layout class="QHBoxLayout" name="horizontalLayout_2">
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <property name="rightMargin">
+                                <number>0</number>
+                            </property>
+                            <item>
+                                <layout class="QVBoxLayout" name="verticalLayout_2">
+                                    <item alignment="Qt::AlignTop">
+                                        <widget class="QPushButton" name="addTranslationButton">
+                                            <property name="text">
+                                                <string>Add</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item alignment="Qt::AlignTop">
+                                        <widget class="QPushButton" name="deleteTranslationButton">
+                                            <property name="text">
+                                                <string>Delete</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <spacer name="verticalSpacer">
+                                            <property name="orientation">
+                                                <enum>Qt::Vertical</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>20</width>
+                                                    <height>40</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <widget class="QListView" name="translationsListView"/>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <widget class="QDialogButtonBox" name="dialogButtons">
+                    <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="standardButtons">
+                        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+                    </property>
+                </widget>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

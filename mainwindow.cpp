@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "addword/addnoun.h"
+#include "addword/addverb.h"
 #include "settingsWindow/settingswindow.h"
 #include "style/NoxStyle.h"
 #include "wordChooser.h"
@@ -231,6 +232,36 @@ MainWindow::MainWindow(QWidget *parent)
             }
         });
         connect(addNounWindow, &QDialog::rejected, addNounWindow, &QDialog::deleteLater);
+    });
+    connect(ui->actionAdd_Verb, &QAction::triggered, [=]() {
+        std::cout << "Adding verb..." << std::endl;
+        auto *addVerbWindow = new addverb;
+        addVerbWindow->show();
+        connect(addVerbWindow, &QDialog::accepted, [=]() {
+            std::vector<std::string> translations;
+            if (addVerbWindow->stringListModel->rowCount()==0) {
+                translations={"Unknown Verb"};
+            }
+            else {
+                for (int i = 0; i < addVerbWindow->stringListModel->rowCount(); ++i) {
+                    translations.push_back(addVerbWindow->stringListModel->data(addVerbWindow->stringListModel->index(i)).toString().toStdString());
+                }
+            }
+            bibliotheca::Verb *newVerb;
+            if (addVerbWindow->spelling4.empty()) {
+                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<3>({addVerbWindow->spelling1,addVerbWindow->spelling2,addVerbWindow->spelling3}),translations);
+            }
+            else {
+                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<4>({addVerbWindow->spelling1,addVerbWindow->spelling2,addVerbWindow->spelling3,addVerbWindow->spelling4}),translations);
+            }
+            std::cout << "Adding verb " << newVerb->getLatin() << std::endl;
+            addVerbWindow->deleteLater();
+            wordList.verbs.push_back(*newVerb);
+            if (wordChoice == WordChoice::None) {
+                nextWord();
+            }
+        });
+        connect(addVerbWindow, &QDialog::rejected, addVerbWindow, &QDialog::deleteLater);
     });
     connect(ui->actionSave_Wordlist, &QAction::triggered, [=](){
         std::cout<<"Saving wordlist..."<<std::endl;
