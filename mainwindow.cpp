@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "addword/addnoun.h"
 #include "settingsWindow/settingswindow.h"
 #include "style/NoxStyle.h"
 #include "wordChooser.h"
@@ -197,6 +198,15 @@ MainWindow::MainWindow(QWidget *parent)
         buttonAnimation->start();
         std::cout<<"Animation started"<<std::endl;
 
+    });
+    connect(ui->actionAdd_Noun, &QAction::triggered, [=](){
+        std::cout<<"Adding noun..."<<std::endl;
+        auto *addNounWindow=new addnoun;
+        addNounWindow->show();
+        connect(addNounWindow, &QDialog::finished, [=](int result){
+            bibliotheca::Noun newNoun(addNounWindow->nomSing, addNounWindow->genSing, addNounWindow->gender, {"TODO: Get English."}, addNounWindow->declension);
+            std::cout<<"Adding noun "<<newNoun.getLatin()<<std::endl;
+        });
     });
     nextWord();
 }
