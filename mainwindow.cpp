@@ -203,10 +203,12 @@ MainWindow::MainWindow(QWidget *parent)
         std::cout<<"Adding noun..."<<std::endl;
         auto *addNounWindow=new addnoun;
         addNounWindow->show();
-        connect(addNounWindow, &QDialog::finished, [=](int result){
-            bibliotheca::Noun newNoun(addNounWindow->nomSing, addNounWindow->genSing, addNounWindow->gender, {"TODO: Get English."}, addNounWindow->declension);
-            std::cout<<"Adding noun "<<newNoun.getLatin()<<std::endl;
+        connect(addNounWindow, &QDialog::accepted, [=](){
+                bibliotheca::Noun newNoun(addNounWindow->nomSing, addNounWindow->genSing, addNounWindow->gender, {"TODO: Get English."}, addNounWindow->declension);
+                std::cout << "Adding noun " << newNoun.getLatin() << std::endl;
+            addNounWindow->deleteLater();
         });
+        connect(addNounWindow, &QDialog::rejected, addNounWindow, &QDialog::deleteLater);
     });
     nextWord();
 }

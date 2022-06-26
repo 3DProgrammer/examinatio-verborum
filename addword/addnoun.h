@@ -2,8 +2,9 @@
 #define EXAMINATIO_VERBORUM_ADDNOUN_H
 
 #include "bibliotheca.h"
-#include <QWidget>
 #include <QDialog>
+#include <QStringListModel>
+#include <QWidget>
 
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ public:
     std::string genSing;
     int declension;
     bibliotheca::Gender gender;
+    QStringListModel * stringListModel;
 private:
     Ui::addnoun *ui;
 };
