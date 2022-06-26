@@ -179,6 +179,7 @@
                     <string>&amp;Wordlist</string>
                 </property>
                 <addaction name="actionAdd_Noun"/>
+                <addaction name="actionAdd_Verb"/>
             </widget>
             <addaction name="menuFile"/>
             <addaction name="menuWordlist"/>
@@ -205,6 +206,14 @@
             </property>
             <property name="shortcut">
                 <string>Alt+N</string>
+            </property>
+        </action>
+        <action name="actionAdd_Verb">
+            <property name="text">
+                <string>Add &amp;Verb</string>
+            </property>
+            <property name="shortcut">
+                <string>Alt+V</string>
             </property>
         </action>
         <action name="actionOpenSettings">
