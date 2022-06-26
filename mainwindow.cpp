@@ -267,6 +267,9 @@ MainWindow::MainWindow(QWidget *parent)
         std::cout<<"Saving wordlist..."<<std::endl;
         QFileDialog::saveFileContent(QByteArray::fromStdString(wordList.write()), "myWordlist.wordList");
     });
+    connect(ui->actionQuit, &QAction::triggered, [=](){ //TODO: Check if has unsaved work.
+        QApplication::exit(0);
+    });
 }
 
 MainWindow::~MainWindow() {
