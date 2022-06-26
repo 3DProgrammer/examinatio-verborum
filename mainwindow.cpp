@@ -12,6 +12,7 @@
 #include <QStandardPaths>
 #include <bibliotheca.h>
 #include <iostream>
+#include <QTimer>
 void MainWindow::buildOptionWeights() {
     verbOptionWeights.clear();
     for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
@@ -122,7 +123,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->answer_button, &QPushButton::pressed, [=]() {
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;
-            nextWord();
+            ui->hint_label->setText("Correct!");
+            QTimer::singleShot(500,this,[=](){
+                nextWord();
+                ui->hint_label->setText("");
+            });
+            //nextWord();
         }
         else if (ui->answer_input->text().toStdString() == "OVERRIDE_PRINT_ANSWER") {
             std::cout << answer << std::endl;
