@@ -22,6 +22,9 @@ std::vector<std::string> split(const std::string &line, char splitter, char quot
                 if (i > last_index) {
                     result.push_back(line.substr(last_index, i - last_index));
                 }
+                else if (i==last_index) {
+                    result.emplace_back("");
+                }
                 last_index = i + 1;
             }
             else {
@@ -130,6 +133,19 @@ WordList::WordList(std::stringstream infile) {
             std::cerr << versionNum << " is not a valid version." << std::endl;
         }
     }
+}
+std::string WordList::write() {
+    std::ostringstream outStream;
+    outStream<<"version 1"<<std::endl;
+    outStream<<"name \""<<name<<"\""<<std::endl;
+    for (auto noun:nouns) {
+        outStream<<"N \""<<noun.spelling[0]<<"\" \""<<noun.spelling[1]<<"\" "<<(noun.gender==bibliotheca::Gender::m?"m ":noun.gender==bibliotheca::Gender::f?"f ":"n ")<<noun.declension<<" \"";
+        for (int i = 0; i < noun.english.size()-1; ++i) {
+            outStream<<noun.english[i]<<";";
+        }
+        outStream<<noun.english[noun.english.size()-1]<<"\""<<std::endl;
+    }
+    return outStream.str();
 }
 
 WordList::WordList() = default;

@@ -234,6 +234,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->actionSave_Wordlist, &QAction::triggered, [=](){
         std::cout<<"Saving wordlist..."<<std::endl;
+        QFileDialog::saveFileContent(QByteArray::fromStdString(wordList.write()), "myWordlist.wordList");
     });
 }
 

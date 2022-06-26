@@ -18,6 +18,6 @@ public:
     static std::map<std::string,int> stringToDeclension;
     static WordList fromData(const std::string &data);
     static WordList fromFilename(const std::string &fileName);
-
+    std::string write();
 };
 #endif //EXAMINATIO_VERBORUM_WORDLISTPARSER_H
