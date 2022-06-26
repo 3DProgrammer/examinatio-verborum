@@ -145,6 +145,19 @@ std::string WordList::write() {
         }
         outStream<<noun.english[noun.english.size()-1]<<"\""<<std::endl;
     }
+    for (auto verb:verbs) {
+        outStream<<"V \""<< verb.spelling[0]<<"\" \""<< verb.spelling[1]<<"\" \""<<verb.spelling[2]<<"\" ";
+        if (verb.deponent) {
+            outStream<<"- \"";
+        }
+        else {
+            outStream<<"\""<<verb.spelling[3]<<"\" \"";
+        }
+        for (int i = 0; i < verb.english.size()-1; ++i) {
+            outStream<< verb.english[i]<<";";
+        }
+        outStream<< verb.english[verb.english.size()-1]<<"\""<<std::endl;
+    }
     return outStream.str();
 }
 
