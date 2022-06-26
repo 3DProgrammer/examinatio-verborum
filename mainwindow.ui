@@ -172,6 +172,7 @@
                 </property>
                 <addaction name="actionNew_Wordlist"/>
                 <addaction name="actionOpen_Wordlist"/>
+                <addaction name="actionSave_Wordlist"/>
                 <addaction name="actionOpenSettings"/>
             </widget>
             <widget class="QMenu" name="menuWordlist">
@@ -200,6 +201,14 @@
                 <string>Ctrl+N</string>
             </property>
         </action>
+        <action name="actionSave_Wordlist">
+            <property name="text">
+                <string>&amp;Save Wordlist</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+S</string>
+            </property>
+        </action>
         <action name="actionAdd_Noun">
             <property name="text">
                 <string>Add &amp;Noun</string>
@@ -218,7 +227,7 @@
         </action>
         <action name="actionOpenSettings">
             <property name="text">
-                <string>&amp;Settings</string>
+                <string>Se&amp;ttings</string>
             </property>
             <property name="shortcut">
                 <string>Ctrl+Shift+S</string>

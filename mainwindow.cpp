@@ -98,9 +98,9 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
     QDirIterator it(":/example-wordlists", QDirIterator::Subdirectories);
     while (it.hasNext()) {
-        QString name=it.next();
+        QString name = it.next();
         examples.addAction(name, [=]() {
-            std::cout<<name.toStdString()<<std::endl;
+            std::cout << name.toStdString() << std::endl;
             QFile file(name);
             file.open(QIODeviceBase::ReadOnly);
             wordList = WordList::fromData(QString(file.read(file.size())).toStdString());
@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent)
             std::cout << answer << std::endl;
         }
         else {
-            if (ui->hint_label->text().size() > 0) {
+            if (ui->hint_label->text().size() > 0 && wordChoice != WordChoice::None) {
                 ui->skip_button->show();
             }
             if (wordChoice == WordChoice::Noun) {
@@ -136,6 +136,16 @@ MainWindow::MainWindow(QWidget *parent)
             else if (wordChoice == WordChoice::Verb) {
                 ui->hint_label->setText(QString::fromStdString(verbChoice.verb->getLatin()));
             }
+        }
+    });
+    connect(ui->actionNew_Wordlist, &QAction::triggered, [=](){ //TODO: Check if wordlist is saved.
+        wordList.nouns.clear();
+        wordList.verbs.clear();
+        wordList.name=""; //TODO: Get name for wordlist from user.
+        nextWord();
+        if (ui->open_vocab_list_button_layout_widget) {
+            ui->open_vocab_list_button_layout_widget->deleteLater();
+            ui->open_vocab_list_button_layout_widget = nullptr;
         }
     });
     connect(ui->skip_button, &QPushButton::pressed, [=]() {
@@ -188,29 +198,43 @@ MainWindow::MainWindow(QWidget *parent)
         auto *buttonAnimation = new QPropertyAnimation(ui->open_vocab_list_button, "geometry");
         buttonAnimation->setDuration(500);
         buttonAnimation->setStartValue(ui->open_vocab_list_button->geometry());
-        buttonAnimation->setEndValue(ui->open_vocab_list_button->geometry().adjusted(-10,-10,10,10));
+        buttonAnimation->setEndValue(ui->open_vocab_list_button->geometry().adjusted(-10, -10, 10, 10));
         buttonAnimation->setEasingCurve(QEasingCurve::OutElastic);
-        connect(buttonAnimation, &QAbstractAnimation::finished, [=](){
-            std::cout<<"Animation finished"<<std::endl;
+        connect(buttonAnimation, &QAbstractAnimation::finished, [=]() {
+            std::cout << "Animation finished" << std::endl;
             ui->actionOpen_Wordlist->triggered();
             buttonAnimation->deleteLater();
         });
         buttonAnimation->start();
-        std::cout<<"Animation started"<<std::endl;
-
+        std::cout << "Animation started" << std::endl;
     });
-    connect(ui->actionAdd_Noun, &QAction::triggered, [=](){
-        std::cout<<"Adding noun..."<<std::endl;
-        auto *addNounWindow=new addnoun;
+    connect(ui->actionAdd_Noun, &QAction::triggered, [=]() {
+        std::cout << "Adding noun..." << std::endl;
+        auto *addNounWindow = new addnoun;
         addNounWindow->show();
-        connect(addNounWindow, &QDialog::accepted, [=](){
-                bibliotheca::Noun newNoun(addNounWindow->nomSing, addNounWindow->genSing, addNounWindow->gender, {"TODO: Get English."}, addNounWindow->declension);
-                std::cout << "Adding noun " << newNoun.getLatin() << std::endl;
+        connect(addNounWindow, &QDialog::accepted, [=]() {
+            std::vector<std::string> translations;
+            if (addNounWindow->stringListModel->rowCount()==0) {
+                translations={"Unknown Noun"};
+            }
+            else {
+                for (int i = 0; i < addNounWindow->stringListModel->rowCount(); ++i) {
+                    translations.push_back(addNounWindow->stringListModel->data(addNounWindow->stringListModel->index(i)).toString().toStdString());
+                }
+            }
+            bibliotheca::Noun newNoun(addNounWindow->nomSing, addNounWindow->genSing, addNounWindow->gender, translations, addNounWindow->declension);
+            std::cout << "Adding noun " << newNoun.getLatin() << std::endl;
             addNounWindow->deleteLater();
+            wordList.nouns.push_back(newNoun);
+            if (wordChoice == WordChoice::None) {
+                nextWord();
+            }
         });
         connect(addNounWindow, &QDialog::rejected, addNounWindow, &QDialog::deleteLater);
     });
-    nextWord();
+    connect(ui->actionSave_Wordlist, &QAction::triggered, [=](){
+        std::cout<<"Saving wordlist..."<<std::endl;
+    });
 }
 
 MainWindow::~MainWindow() {
@@ -221,6 +245,33 @@ void MainWindow::nextWord() {
     ui->skip_button->hide();
     if (rand() % 2 == 0) {
         wordChoice = WordChoice::Verb;
+    }
+    else {
+        wordChoice = WordChoice::Noun;
+    }
+    if (wordList.nouns.empty() && wordList.verbs.empty()) {
+        wordChoice = WordChoice::None;
+        ui->question_label->setText("No words in wordlist!");
+        answer = "";
+        ui->answer_input->setText("");
+        ui->hint_label->setText("");
+    }
+    else if (wordList.nouns.empty()) {
+        wordChoice = WordChoice::Verb;
+    }
+    else if (wordList.verbs.empty()) {
+        wordChoice = WordChoice::Noun;
+    }
+    if (wordChoice==WordChoice::None) {
+        ui->answer_input->hide();
+        ui->answer_button->hide();
+    }
+    else {
+        ui->answer_input->show();
+        ui->answer_button->show();
+    }
+    if (wordChoice == WordChoice::Verb) {
+
         verbChoice = chooseVerb(&wordList.verbs, verbOptionWeights);
         if (verbChoice.verb != nullptr) {
             std::string optionDescription;
@@ -254,8 +305,7 @@ void MainWindow::nextWord() {
             ui->hint_label->setText("");
         }
     }
-    else {
-        wordChoice = WordChoice::Noun;
+    else if (wordChoice == WordChoice::Noun) {
         nounChoice = chooseNoun(&wordList.nouns, &cases, &numbers);
         if (nounChoice.noun != nullptr) {
             ui->question_label->setText(QString::fromStdString(
