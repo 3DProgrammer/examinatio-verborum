@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->skip_button->hide();
     ui->open_vocab_list_button_layout_widget->setFixedSize(ui->centralwidget->size());
     ui->stuff_layout_widget->setFixedSize(ui->centralwidget->size());
+    ui->question_label->setWordWrap(true);
 
 #ifndef __wasm__
     ui->menuFile->addMenu(&recentFiles);
