@@ -10,9 +10,9 @@
 #include <QPropertyAnimation>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QTimer>
 #include <bibliotheca.h>
 #include <iostream>
-#include <QTimer>
 void MainWindow::buildOptionWeights() {
     verbOptionWeights.clear();
     for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
@@ -64,6 +64,11 @@ void MainWindow::setupRecentFiles() {
                         ui->open_vocab_list_button_layout_widget->deleteLater();
                         ui->open_vocab_list_button_layout_widget = nullptr;
                     }
+                    ui->answer_input->setFocus();
+#ifdef __ANDROID__
+                    QGuiApplication::inputMethod()->show();
+#endif
+
                 });
         recentFiles.addAction(action);
     }
@@ -117,6 +122,11 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->open_vocab_list_button_layout_widget->deleteLater();
                 ui->open_vocab_list_button_layout_widget = nullptr;
             }
+            ui->answer_input->setFocus();
+#ifdef __ANDROID__
+            QGuiApplication::inputMethod()->show();
+            qDebug()<<"Showing Keyboard.";
+#endif
         });
     }
     examples.setTitle("&Example wordlists");
@@ -125,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (ui->answer_input->text().toStdString() == answer) {
             std::cout << "Correct!" << std::endl;
             ui->hint_label->setText("Correct!");
-            QTimer::singleShot(500,this,[=](){
+            QTimer::singleShot(500, this, [=]() {
                 nextWord();
                 ui->hint_label->setText("");
             });
@@ -145,11 +155,15 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->hint_label->setText(QString::fromStdString(verbChoice.verb->getLatin()));
             }
         }
+        ui->answer_input->setFocus();
+#ifdef __ANDROID__
+        QGuiApplication::inputMethod()->show();
+#endif
     });
-    connect(ui->actionNew_Wordlist, &QAction::triggered, [=](){ //TODO: Check if wordlist is saved.
+    connect(ui->actionNew_Wordlist, &QAction::triggered, [=]() {//TODO: Check if wordlist is saved.
         wordList.nouns.clear();
         wordList.verbs.clear();
-        wordList.name=""; //TODO: Get name for wordlist from user.
+        wordList.name = "";//TODO: Get name for wordlist from user.
         nextWord();
         if (ui->open_vocab_list_button_layout_widget) {
             ui->open_vocab_list_button_layout_widget->deleteLater();
@@ -200,6 +214,10 @@ MainWindow::MainWindow(QWidget *parent)
                     ui->open_vocab_list_button_layout_widget = nullptr;
                 }
 #endif
+        ui->answer_input->setFocus();
+#ifdef __ANDROID__
+        QGuiApplication::inputMethod()->show();
+#endif
     });
     connect(ui->answer_input, &QLineEdit::returnPressed, ui->answer_button, &QPushButton::pressed);
     connect(ui->open_vocab_list_button, &QPushButton::pressed, [=]() {
@@ -222,8 +240,8 @@ MainWindow::MainWindow(QWidget *parent)
         addNounWindow->show();
         connect(addNounWindow, &QDialog::accepted, [=]() {
             std::vector<std::string> translations;
-            if (addNounWindow->stringListModel->rowCount()==0) {
-                translations={"Unknown Noun"};
+            if (addNounWindow->stringListModel->rowCount() == 0) {
+                translations = {"Unknown Noun"};
             }
             else {
                 for (int i = 0; i < addNounWindow->stringListModel->rowCount(); ++i) {
@@ -246,8 +264,8 @@ MainWindow::MainWindow(QWidget *parent)
         addVerbWindow->show();
         connect(addVerbWindow, &QDialog::accepted, [=]() {
             std::vector<std::string> translations;
-            if (addVerbWindow->stringListModel->rowCount()==0) {
-                translations={"Unknown Verb"};
+            if (addVerbWindow->stringListModel->rowCount() == 0) {
+                translations = {"Unknown Verb"};
             }
             else {
                 for (int i = 0; i < addVerbWindow->stringListModel->rowCount(); ++i) {
@@ -256,10 +274,10 @@ MainWindow::MainWindow(QWidget *parent)
             }
             bibliotheca::Verb *newVerb;
             if (addVerbWindow->spelling4.empty()) {
-                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<3>({addVerbWindow->spelling1,addVerbWindow->spelling2,addVerbWindow->spelling3}),translations);
+                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<3>({addVerbWindow->spelling1, addVerbWindow->spelling2, addVerbWindow->spelling3}), translations);
             }
             else {
-                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<4>({addVerbWindow->spelling1,addVerbWindow->spelling2,addVerbWindow->spelling3,addVerbWindow->spelling4}),translations);
+                newVerb = new bibliotheca::Verb(bibliotheca::PrincipalParts<4>({addVerbWindow->spelling1, addVerbWindow->spelling2, addVerbWindow->spelling3, addVerbWindow->spelling4}), translations);
             }
             std::cout << "Adding verb " << newVerb->getLatin() << std::endl;
             addVerbWindow->deleteLater();
@@ -270,11 +288,11 @@ MainWindow::MainWindow(QWidget *parent)
         });
         connect(addVerbWindow, &QDialog::rejected, addVerbWindow, &QDialog::deleteLater);
     });
-    connect(ui->actionSave_Wordlist, &QAction::triggered, [=](){
-        std::cout<<"Saving wordlist..."<<std::endl;
+    connect(ui->actionSave_Wordlist, &QAction::triggered, [=]() {
+        std::cout << "Saving wordlist..." << std::endl;
         QFileDialog::saveFileContent(QByteArray::fromStdString(wordList.write()), "myWordlist.wordList");
     });
-    connect(ui->actionQuit, &QAction::triggered, [=](){ //TODO: Check if has unsaved work.
+    connect(ui->actionQuit, &QAction::triggered, [=]() {//TODO: Check if has unsaved work.
         QApplication::exit(0);
     });
 }
@@ -304,7 +322,7 @@ void MainWindow::nextWord() {
     else if (wordList.verbs.empty()) {
         wordChoice = WordChoice::Noun;
     }
-    if (wordChoice==WordChoice::None) {
+    if (wordChoice == WordChoice::None) {
         ui->answer_input->hide();
         ui->answer_button->hide();
     }
