@@ -309,7 +309,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::nextWord() {
     ui->skip_button->hide();
-    if (rand() % 2 == 0) {
+    if ((rand()%(quickSetting(n_w, int, 1)+ quickSetting(v_w,int,1)))>=quickSetting(n_w, int, 1)) {
         wordChoice = WordChoice::Verb;
     }
     else {

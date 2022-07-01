@@ -13,6 +13,9 @@
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
     ui->setupUi(this);
 
+    addSetting(n_w, valueChanged, setValue, int);
+    addSetting(v_w, valueChanged, setValue, int);
+
     addSetting(enable_nouns, stateChanged, setChecked, bool);
     addSetting(n_w_sing, valueChanged, setValue, int);
     addSetting(n_w_plur, valueChanged, setValue, int);
