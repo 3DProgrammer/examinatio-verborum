@@ -14,33 +14,33 @@
 #include <bibliotheca.h>
 #include <iostream>
 #include "util.h"
-void MainWindow::buildOptionWeights() {
-    verbOptionWeights.clear();
-    for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
-        for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
-            verbOptionWeights.emplace_back(VerbOption(1, number, bibliotheca::Tense::present, voice, bibliotheca::Mood::imperative), 1);
-        }
-        for (auto tense: {bibliotheca::Tense::present, bibliotheca::Tense::perfect, bibliotheca::Tense::future}) {
-            verbOptionWeights.emplace_back(VerbOption(1, bibliotheca::Number::singular, tense, voice, bibliotheca::Mood::infinitive), 1);
-        }
-        for (auto tense: {bibliotheca::Tense::pluperfect, bibliotheca::Tense::perfect, bibliotheca::Tense::imperfect, bibliotheca::Tense::present}) {
-            for (auto mood: {bibliotheca::Mood::indicative, bibliotheca::Mood::subjunctive}) {
-                for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
-                    for (auto person: {1, 2, 3}) {
-                        verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, mood), 1);
-                    }
-                }
-            }
-        }
-        for (auto tense: {bibliotheca::Tense::future, bibliotheca::Tense::futureperfect}) {
-            for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
-                for (auto person: {1, 2, 3}) {
-                    verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, bibliotheca::Mood::indicative), 1);
-                }
-            }
-        }
-    }
-}
+//void MainWindow::buildOptionWeights() {
+//    verbOptionWeights.clear();
+//    for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
+//        for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
+//            verbOptionWeights.emplace_back(VerbOption(1, number, bibliotheca::Tense::present, voice, bibliotheca::Mood::imperative), 1);
+//        }
+//        for (auto tense: {bibliotheca::Tense::present, bibliotheca::Tense::perfect, bibliotheca::Tense::future}) {
+//            verbOptionWeights.emplace_back(VerbOption(1, bibliotheca::Number::singular, tense, voice, bibliotheca::Mood::infinitive), 1);
+//        }
+//        for (auto tense: {bibliotheca::Tense::pluperfect, bibliotheca::Tense::perfect, bibliotheca::Tense::imperfect, bibliotheca::Tense::present}) {
+//            for (auto mood: {bibliotheca::Mood::indicative, bibliotheca::Mood::subjunctive}) {
+//                for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
+//                    for (auto person: {1, 2, 3}) {
+//                        verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, mood), 1);
+//                    }
+//                }
+//            }
+//        }
+//        for (auto tense: {bibliotheca::Tense::future, bibliotheca::Tense::futureperfect}) {
+//            for (auto number: {bibliotheca::Number::singular, bibliotheca::Number::plural}) {
+//                for (auto person: {1, 2, 3}) {
+//                    verbOptionWeights.emplace_back(VerbOption(person, number, tense, voice, bibliotheca::Mood::indicative), 1);
+//                }
+//            }
+//        }
+//    }
+//}
 void MainWindow::setupRecentFiles() {
     while (!recentFiles.actions().empty()) {
         recentFiles.removeAction(recentFiles.actions()[0]);
@@ -80,7 +80,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     setupRecentFiles();
-    buildOptionWeights();
     //    nouns.clear();
     //    nouns.push_back(bibliotheca::Noun("bibliotheca", "bibliothecae", bibliotheca::Gender::f, {"library"}, 1));
     //    nouns.push_back(bibliotheca::Noun("Quintus", "Quinti", bibliotheca::Gender::m, {"Quintus"}, 2));
@@ -338,7 +337,7 @@ void MainWindow::nextWord() {
     }
     if (wordChoice == WordChoice::Verb) {
 
-        verbChoice = chooseVerb(&wordList.verbs, verbOptionWeights);
+        verbChoice = chooseVerb(&wordList.verbs);
         if (verbChoice.verb != nullptr) {
             std::string optionDescription;
             if (verbChoice.option.mood == bibliotheca::Mood::indicative || verbChoice.option.mood == bibliotheca::Mood::subjunctive) {

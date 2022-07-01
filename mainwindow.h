@@ -38,13 +38,11 @@ private:
     VerbChoice verbChoice;
     WordChoice wordChoice;
     WordList wordList;
-    std::vector<std::pair<VerbOption,int>> verbOptionWeights;
     QMenu recentFiles;
     QMenu examples;
     void setupRecentFiles();
     QList<QString> recentFileList;
     QSettings settings;
-    void buildOptionWeights();
-    void resizeEvent(QResizeEvent * event);
+    void resizeEvent(QResizeEvent * event) override;
 };
 #endif // MAINWINDOW_H
