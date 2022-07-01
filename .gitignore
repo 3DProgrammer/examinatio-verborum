@@ -3,7 +3,7 @@ cmake-build*
 # Emacs backup files.
 *~
 # QT Creator file.
-CMakeLists.txt.user
+CMakeLists.txt.user*
 # CLion project files
 .idea
 # Prefix files with LOCAL if you want to avoid accidentaly committing them.
