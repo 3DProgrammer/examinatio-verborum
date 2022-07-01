@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <bibliotheca.h>
 #include <iostream>
+#define quickSetting(name,type) QSettings().value(QString::fromStdString(std::string("AUTO_SETTING")+#name)).value<type>()
 void MainWindow::buildOptionWeights() {
     verbOptionWeights.clear();
     for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
@@ -309,17 +310,17 @@ void MainWindow::nextWord() {
     else {
         wordChoice = WordChoice::Noun;
     }
-    if (wordList.nouns.empty() && wordList.verbs.empty()) {
+    if ((wordList.nouns.empty()||!quickSetting(enable_nouns, bool)) && (wordList.verbs.empty()||!quickSetting(enable_verbs, bool))) {
         wordChoice = WordChoice::None;
         ui->question_label->setText("No words in wordlist!");
         answer = "";
         ui->answer_input->setText("");
         ui->hint_label->setText("");
     }
-    else if (wordList.nouns.empty()) {
+    else if (wordList.nouns.empty()||!quickSetting(enable_nouns, bool)) {
         wordChoice = WordChoice::Verb;
     }
-    else if (wordList.verbs.empty()) {
+    else if (wordList.verbs.empty()||!quickSetting(enable_verbs, bool)) {
         wordChoice = WordChoice::Noun;
     }
     if (wordChoice == WordChoice::None) {
