@@ -31,6 +31,6 @@ struct VerbChoice {
     VerbChoice();
     VerbChoice(bibliotheca::Verb *_verb, VerbOption _option);
 };
-NounChoice chooseNoun(std::vector<bibliotheca::Noun> *nouns, std::map<bibliotheca::Case, std::string> *cases, std::map<bibliotheca::Number, std::string> *numbers);
+NounChoice chooseNoun(std::vector<bibliotheca::Noun> *nouns);
 VerbChoice chooseVerb(std::vector<bibliotheca::Verb> *verbs, std::vector<std::pair<VerbOption,int>> optionWeights);
 #endif //EXAMINATIO_VERBORUM_WORDCHOOSER_H

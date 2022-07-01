@@ -13,7 +13,7 @@
 #include <QTimer>
 #include <bibliotheca.h>
 #include <iostream>
-#define quickSetting(name,type,default) QSettings().value(QString::fromStdString(std::string("AUTO_SETTING")+#name),default).value<type>()
+#include "util.h"
 void MainWindow::buildOptionWeights() {
     verbOptionWeights.clear();
     for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
@@ -372,7 +372,7 @@ void MainWindow::nextWord() {
         }
     }
     else if (wordChoice == WordChoice::Noun) {
-        nounChoice = chooseNoun(&wordList.nouns, &cases, &numbers);
+        nounChoice = chooseNoun(&wordList.nouns);
         if (nounChoice.noun != nullptr) {
             ui->question_label->setText(QString::fromStdString(
                     "Translate *" + nounChoice.noun->getEnglish() + "* in the " + cases[nounChoice.nounCase] + " " +
