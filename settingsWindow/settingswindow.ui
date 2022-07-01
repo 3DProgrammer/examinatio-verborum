@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>872</width>
-    <height>1285</height>
+    <height>1339</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -253,6 +253,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QSpinBox" name="n_w">
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="value">
                <number>1</number>
               </property>
@@ -531,6 +534,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QSpinBox" name="v_w">
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="value">
                <number>1</number>
               </property>
