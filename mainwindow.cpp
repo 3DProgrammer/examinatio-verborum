@@ -13,7 +13,7 @@
 #include <QTimer>
 #include <bibliotheca.h>
 #include <iostream>
-#define quickSetting(name,type) QSettings().value(QString::fromStdString(std::string("AUTO_SETTING")+#name)).value<type>()
+#define quickSetting(name,type,default) QSettings().value(QString::fromStdString(std::string("AUTO_SETTING")+#name),default).value<type>()
 void MainWindow::buildOptionWeights() {
     verbOptionWeights.clear();
     for (auto voice: {bibliotheca::Voice::active, bibliotheca::Voice::passive}) {//This line doesn't seem C++
@@ -177,6 +177,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpenSettings, &QAction::triggered, [=]() {
         auto dialogWindow = new SettingsWindow();
         dialogWindow->show();
+        connect(dialogWindow, &QWidget::destroyed, [=](){
+            if (!ui->open_vocab_list_button_layout_widget) {
+                nextWord();
+            }
+        });
     });
     connect(ui->actionOpen_Wordlist, &QAction::triggered, [=]() {
 #ifdef __wasm__
@@ -310,17 +315,17 @@ void MainWindow::nextWord() {
     else {
         wordChoice = WordChoice::Noun;
     }
-    if ((wordList.nouns.empty()||!quickSetting(enable_nouns, bool)) && (wordList.verbs.empty()||!quickSetting(enable_verbs, bool))) {
+    if ((wordList.nouns.empty()||!quickSetting(enable_nouns, bool, true)) && (wordList.verbs.empty()||!quickSetting(enable_verbs, bool, true))) {
         wordChoice = WordChoice::None;
         ui->question_label->setText("No words in wordlist!");
         answer = "";
         ui->answer_input->setText("");
         ui->hint_label->setText("");
     }
-    else if (wordList.nouns.empty()||!quickSetting(enable_nouns, bool)) {
+    else if (wordList.nouns.empty()||!quickSetting(enable_nouns, bool, true)) {
         wordChoice = WordChoice::Verb;
     }
-    else if (wordList.verbs.empty()||!quickSetting(enable_verbs, bool)) {
+    else if (wordList.verbs.empty()||!quickSetting(enable_verbs, bool, true)) {
         wordChoice = WordChoice::Noun;
     }
     if (wordChoice == WordChoice::None) {
