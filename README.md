@@ -1,3 +1,1 @@
-# examinatio-verborum
-A vocab tester for Latin.
-# This repository is currently being moved to GitLab.
+# This repository has been [moved to GitLab](https://gitlab.com/examinatio-verborum/examinatio-verborum).
